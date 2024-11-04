@@ -285,7 +285,7 @@ func (r recordsClient) Update(ctx context.Context, request UpdateRecordRequest) 
 // Upsert inserts or updates a record.
 // https://xata.io/docs/api-reference/db/db_branch_name/tables/table_name/data/record_id#upsert-record-with-id
 func (r recordsClient) Upsert(ctx context.Context, request UpsertRecordRequest) (*Record, error) {
-	recGen := &xatagenworkspace.UpdateRecordWithIdRequest{
+	recGen := &xatagenworkspace.UpsertRecordWithIdRequest{
 		IfVersion: request.IfVersion,
 		Columns:   constructColumns(request.Columns),
 		Body:      make(map[string]*xatagenworkspace.DataInputRecordValue),
@@ -300,7 +300,7 @@ func (r recordsClient) Upsert(ctx context.Context, request UpsertRecordRequest) 
 		return nil, err
 	}
 
-	record, err := r.generated.UpdateRecordWithId(ctx, dbBranchName, request.TableName, request.RecordID, recGen)
+	record, err := r.generated.UpsertRecordWithId(ctx, dbBranchName, request.TableName, request.RecordID, recGen)
 	if err != nil {
 		return nil, err
 	}
